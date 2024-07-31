@@ -1,6 +1,5 @@
 package org.java.introduction;
 
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,7 +8,9 @@ public class Main {
         Inventory inventory = new Inventory();
         Scanner scanner = new Scanner(System.in);
 
+        // Main loop to display the menu and process user input
         while (true) {
+            // Display menu options
             System.out.println("1. Add Item");
             System.out.println("2. Update Item");
             System.out.println("3. Display Inventory");
@@ -19,6 +20,7 @@ public class Main {
             try {
                 int choice = scanner.nextInt();
 
+                // Process user's choice
                 switch (choice) {
                     case 1:
                         addItem(inventory, scanner);
@@ -27,24 +29,33 @@ public class Main {
                         updateItem(inventory, scanner);
                         break;
                     case 3:
+                        // Display all items in the inventory
                         inventory.displayInventory();
                         break;
                     case 4:
                         System.out.println("Exiting...");
                         return;
                     default:
+                        // Handle invalid menu choices
                         System.out.println("Invalid choice. Please try again.");
                         break;
                 }
             } catch (InputMismatchException e) {
+                // Handle input mismatch exceptions (e.g., user enters a non-integer value)
                 ExceptionHandling.handleInputMismatchException(e);
-                scanner.next(); // clear the invalid input
+                scanner.next(); // Clear the invalid input
             } catch (Exception e) {
                 ExceptionHandling.handleException(e);
             }
         }
     }
 
+    /**
+     * Adds a new item to the inventory.
+     *
+     * @param inventory The inventory object
+     * @param scanner   The scanner object to read user input
+     */
     private static void addItem(Inventory inventory, Scanner scanner) {
         System.out.print("Enter name: ");
         String name = scanner.next();
@@ -54,13 +65,21 @@ public class Main {
         double price = scanner.nextDouble();
 
         if (InputValidator.validateQuantity(quantity) && InputValidator.validatePrice(price)) {
+            // Add the item to the inventory if inputs are valid
             inventory.addItem(new Item(name, quantity, price));
         } else {
+            // Display error message for invalid input values
             System.out.println("Invalid input values for quantity or price.");
         }
     }
 
+    /**
+     * Updates an existing item in the inventorys
+     * @param inventory The inventory object
+     * @param scanner   The scanner object to read user input
+     */
     private static void updateItem(Inventory inventory, Scanner scanner) {
+        // Prompt user for item details to update
         System.out.print("Enter name of the item to update: ");
         String name = scanner.next();
         System.out.print("Enter new quantity: ");
@@ -69,11 +88,13 @@ public class Main {
         double price = scanner.nextDouble();
 
         if (InputValidator.validateQuantity(quantity) && InputValidator.validatePrice(price)) {
+            // Update the item in the inventory if inputs are valid
             inventory.updateItem(name, quantity, price);
         } else {
+            // Display error message for invalid input values
             System.out.println("Invalid input values for quantity or price.");
-        }
-    }
+        }
+    }
 }
 package org.java.introduction;
 
